@@ -20,6 +20,13 @@ call vundle#end()
 :source ~/.vimrc
 :PluginInstall
 ```
+3. PluginInstall failed
+```
+if PluginInstall error occured
+It may git clone from github failed.
+You can cp bundle folder to ~/.vim/bundle.
+Then re-install passed.
+```
 
 ## Install Markdown Plugin
 1. add coding in ~/.vimrc
