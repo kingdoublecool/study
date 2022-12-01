@@ -21,11 +21,27 @@ id: "38673",
 
 
 // set
-customerData[customerID].usages[year][month] = amount;
+getCustomerData().setUsage(customerID, year, month, amount);
 
 // get
 function compareUsage(customerID, laterYear, month) {
-  const later = customerData[customerID].usages[laterYear][month];
-  const earlier = customerData[customerID].usages[laterYear - 1][month];
+  const later = getCustomerData().rawData[customerID].usages[laterYear][month];
+  const earlier = getCustomerData().rawData[customerID].usages[laterYear - 1][month];
   return { laterAmount: later, change: later - earlier };
+}
+
+function getCustomerData() {
+  return customerData;
+}
+
+class CustomerData {
+  constructor(data) {
+    this._data = data;
+  }
+  setUsage(customerID, year, month, amount) {
+    this._data[customerID].usages[year][month] = amount;
+  }
+  get rawData() {
+    return _.cloneDeep(this._data);
+  }
 }
