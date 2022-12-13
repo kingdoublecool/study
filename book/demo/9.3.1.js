@@ -1,8 +1,6 @@
 get discountedTotal() {
- return this._discountedTotal;
+ return this._baseTotal - this._discount;
 }
 set discount(aNumber) {
- const old = this._discount;
  this._discount = aNumber;
- this._discountedTotal += old - aNumber;
 }
