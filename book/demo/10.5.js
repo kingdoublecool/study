@@ -1,5 +1,7 @@
 class Site {
-  get customer() {return this._customer;}
+  get customer() {
+    return (this._customer === "unknown") ? new UnknownCustomer() : this._customer;
+  }
 }
 class Customer {
   get name()           {...}
@@ -7,24 +9,25 @@ class Customer {
   set billingPlan(arg) {...} 
   get paymentHistory() {...}
 }
+class UnknownCustomer {
+  get name() {return "occupant";}
+  get billingPlan() {return registry.billingPlans.basic;}
+  get paymentHistory() {return new NullPaymentHistory();}
+}
+class NullPaymentHistory {
+  get weeksDelinquentInLastYear() {return 0;}
+}
 class client1 {
   const aCustomer = site.customer;
   // ... lots of intervening code ... 
-  let customerName;
-  if (aCustomer === "unknown")
-  customerName = "occupant"; 
-  else customerName = aCustomer.name;
+  const customerName = aCustomer.name;
 }
 class client2 {
-  const plan = (aCustomer === "unknown") ? 
-    registry.billingPlans.basic
-    : aCustomer.billingPlan;
+  const plan = aCustomer.billingPlan;
 }
 class client3 {
-  if (aCustomer !== "unknown") aCustomer.billingPlan = newPlan;
+  aCustomer.billingPlan = newPlan;
 }
 class client4 {
-  const weeksDelinquent = (aCustomer === "unknown") ?
-    0
-    : aCustomer.paymentHistory.weeksDelinquentInLastYear;
+  const weeksDelinquent = aCustomer.paymentHistory.weeksDelinquentInLastYear;
 }
