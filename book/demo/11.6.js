@@ -1,17 +1,17 @@
 class HeatingPlan {
-  get targetTemperature() {
-    if (thermostat.selectedTemperature > this._max)
+  targetTemperature(selectedTemperature) {
+    if (selectedTemperature > this._max)
       return this._max; 
-    else if (thermostat.selectedTemperature < this._min)
+    else if (selectedTemperature < this._min)
       return this._min; 
     else
-      return thermostat.selectedTemperature;
+      return selectedTemperature;
   }
 }
 
-if (thePlan.targetTemperature > thermostat.currentTemperature)
+if (thePlan.targetTemperature(thermostat.selectedTemperature) > thermostat.currentTemperature)
   setToHeat();
-else if (thePlan.targetTemperature < thermostat.currentTemperature)
+else if (thePlan.targetTemperature(thermostat.selectedTemperature) < thermostat.currentTemperature)
   setToCool();
 else
   setOff();
