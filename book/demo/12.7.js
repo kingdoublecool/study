@@ -1,36 +1,20 @@
 class Person {
-  constructor(name) {
+  constructor(name, genderCode) {
     this._name = name;
+    this._genderCode = genderCode || "X";
   }
   get name() {return this._name;}
-  get genderCode() {return "X";}
+  get genderCode() {return this._genderCode;}
+  get isMale() {return "M" === this._genderCode;}
 }
-class Male extends Person {
-  get genderCode() {return "M";}
-}
-class Female extends Person {
-  get genderCode() {return "F";}
-}
-function createPerson(name) {
-  return new Person(name);
-}
-function createMale(name) {
-  return new Male(name);
-}
-function createFemale(name) {
-  return new Female(name);
+function createPerson(aRecord) {
+  switch (aRecord.gender) {
+    case 'M': return new Person(aRecord.name, "M");
+    case 'F': return new Person(aRecord.name, "F");
+    default: return new Person(aRecord.name, "X");
+  }
 }
 function loadFromInput(data) {
-  const result = [];
-  data.forEach(aRecord => {
-    let p;
-    switch (aRecord.gender) {
-      case 'M': p = new Male(aRecord.name); break; 
-      case 'F': p = new Female(aRecord.name); break; 
-      default: p = new Person(aRecord.name);
-    }
-    result.push(p);
-  });
-  return result;
+  return data.map(aRecord => createPerson(aRecord));
 }
-const numberOfMales = people.filter(p => p instanceof Male).length;
+const numberOfMales = people.filter(p => p.isMale).length;
