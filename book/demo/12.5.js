@@ -1,5 +1,5 @@
-class Employee {
-  private String quota;
-}
+class Employee {...}
 class Engineer extends Employee {...}
-class Salesman extends Employee {...}
+class Salesman extends Employee {
+  protected String quota;
+}
